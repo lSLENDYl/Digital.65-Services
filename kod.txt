@@ -1,9 +1,16 @@
-# Туризм (туры и экскурсии)
+# Туризм
 
 tour_lst = []  # Массив с названиями туров
 excursion_lst = []  # Массив с названиями экскурсий
 tour_description_lst = []  # Массив с описаниями туров
 excursion_description_lst = []  # Массив с описаниями экскурсий
+
+#with open('Туры и экскурсии.txt', 'r') as f:
+#    line_num = 1
+#    for i in f:
+#        if f.readline(line_num) == '#Туры':
+#            tour_lst.append(i)
+#print(tour_lst)
 
 while True:
     print('1-Список туров и экскурсий, 2-Поиск тура/экскурсии, 3-Рекомендация тура/экскурсии')
@@ -35,7 +42,7 @@ while True:
                 for i in request_splt:
                     if my_request == i.lower():
                         print(el)  # Если что то найдено в названии, выводим это
-                        found.append(el)  # Добавление найденного тура в список
+                        found.append('t_' + el)  # Добавление найденного тура в список
             for des in tour_description_lst:
                 des_splt = des.split()  # Деление описания по пробелам
                 for i in des_splt:
@@ -48,7 +55,7 @@ while True:
                 for i in request_splt:
                     if my_request == i.lower():
                         print(el)
-                        found.append(el)
+                        found.append('e_' + el)
             for des in excursion_description_lst:
                 des_splt = des.split()
                 for i in des_splt:
@@ -56,4 +63,7 @@ while True:
                         print(excursion_lst[excursion_description_lst.index(des)])
 
     elif choice == 3:
-        print('В разработке')  # (Надо добавить парсинг)
+        print('')
+        for el in found:
+            if 't_' in el:
+                print(el[2:])
