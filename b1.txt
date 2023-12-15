@@ -1,0 +1,38 @@
+#мероприятия
+
+base1 = [] #массив с названиями  мероприятий
+base2 = [] #массив с описаниями мероприятий
+base3 = [] #массив с локацией и временем мероприятий
+found = 0
+while True:
+    print('1-создать мероприятие, 2-список мероприятий, 3 - поиск мероприятия, 4 - узнать больше о мероприятии')
+
+    vibor = int(input())
+    if vibor == 1:
+        print('введите название мероприятия')#добавление мероприятия
+        base1.append(input())
+        print('введите описание мероприятия')
+        base2.append(input())
+        print('введите где и когда будет происходить мероприятие')
+        base3.append(input())
+    elif vibor==2:
+        k = 1
+        for i in base1:
+            print(k, ' ', i,'\n') #выводим список мероприятий
+    elif vibor==3:
+        already = []
+        poisk = input().lower() #слово по которому идет поиск
+        for i in base1:
+            timewords = i.split() #делим название по пробелу
+            for k in timewords:
+                if poisk == k.lower():
+                    print(i) #если мы что-то нашли в названии то мы это выводим
+                    already.append(i)
+             
+        for i in base2:
+            timewords = i.split() #делим описание по пробелам и ведем поиск по нему
+            for k in timewords:
+                if k.lower == poisk and base1[base2.index(i)] not in already: #проверка, выводили ли мы уже это знаечение
+                    print(base1[base2.index(i)]) #если что то нашли, то выводим название мероприятия
+    elif vibor == 4:
+        print('в разработке')
