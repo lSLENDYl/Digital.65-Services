@@ -1,8 +1,8 @@
 spec = [
-    ["сноуборд", "активный спорт", 8, 18, "нет", "очное", "шахтёрск", 2000],
-    ["бпла", "айти", 14, 21, "да", "очное", "москва", 4500],
-    ["математика", "учёба", 7, 18, "да", "очное", "корсаков", 1500],
-    ["english", "учёба", 15, 20, "нет", "очное", "южный", 6000]
+    ["сноуборд", "активный спорт", 8, 18, 0, 1],
+    ["бпла", "айти", 14, 21, 1, 2],
+    ["математика", "учёба", 7, 18, 1, 3],
+    ["english", "учёба", 15, 20, 0, 2]
 ]
 
 result = []
@@ -17,7 +17,7 @@ def specs(args):                        # фильтр по специально
     for i in spec:
         for r in args:
             try:
-                if i.index(r):
+                if i.index(r) == 1:
                     result.append(i)
             except: pass
 
@@ -37,63 +37,50 @@ def age(nage):                          # фильтр по возрасту
 
 def ovz(ans):                           # фильтр по овз
     if len(ans) == 0:
-        ans=["да", "нет"]
+        ans=[0, 1]
     ans = list(set(ans))
+    ans = [int(i) for i in ans]
     global kol
     kol+=1
     for i in spec:
         for r in ans:
             try:
-                if i.index(r):
+                if i.index(r) == 4:
                     result.append(i)
             except: pass
 
 def ochn(anss):                         # фильтр по очное\заочное
     if len(anss) == 0:
-        anss=["очное", "заочное"]
+        anss=[1, 2, 3]
     anss = list(set(anss))
+    anss = [int(i) for i in anss]
     global kol
     kol+=1
     for i in spec:
         for r in anss:
             try:
-                if i.index(r):
+                if i.index(r) == 5:
                     result.append(i)
             except: pass
 
-def location(loc):                      # фильтр по локации
-    if len(loc) == 0:
-        loc=[i[6] for i in spec]
-    loc = list(set(loc))
-    global kol
-    kol+=1
-    for i in spec:
-        for r in loc:
-            try:
-                if i.index(r):
-                    result.append(i)
-            except: pass
-
-def price(price):                       # фильтр по цене
-    if len(price) == 0:
-        price = -1
-    price = int(price)
-    global kol
-    kol+=1
-    if price == -1:
-        for i in spec:
-            result.append(i)
-    else:
-        for i in spec:
-            if i[7] <= price:
-                result.append(i)
+# def location(loc):                      # фильтр по локации
+#     if len(loc) == 0:
+#         loc=[i[6] for i in spec]
+#     loc = list(set(loc))
+#     global kol
+#     kol+=1
+#     for i in spec:
+#         for r in loc:
+#             try:
+#                 if i.index(r):
+#                     result.append(i)
+#             except: pass
 
 specs(input().split())
 age(input())
 ovz(input().split())
 ochn(input().split())
-location(input().split())
-price(input())
+# location(input().split())
 
 for i in spec:
     if result.count(i) == kol:
