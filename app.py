@@ -4,8 +4,45 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHB
 from PyQt5.QtGui import QPixmap
 import urllib.request, json
 
+def use_search():
+    global searched
+    searched = []
+    search()
+    stroka = ''
+    print_info = QMessageBox()
+    print_info.setWindowTitle('поиск')
+    for i in searched:
+        stroka += i.lower().replace('"','')[41:]
+        stroka += "\n"
+    print_info.setText('вот, что удалось найти: ' + '\n' + stroka)
+    print_info.exec_()
+
+def search():
+    poisk = poisk_line.text().lower()
+    for i in spec:
+        timewords = i[0].lower().replace('"','')[41:].split() #делим название по пробелу
+        print(timewords)
+        for k in timewords:
+            k = str(k)
+            kol = 0
+            for r in range(len(poisk)): # поиск по буквам
+                try:
+                    if k.index(poisk[r]) >= 0:
+                        if kol >= 1:
+                            if k[k.index(poisk[r-1]) + 1] == poisk[r]:
+                                kol += 1
+                        else: kol += 1
+                except: pass
+            if kol == len(poisk):
+                print(i[0]) #вывод найденого
+                searched.append(i[0])
 
 def use_filter():
+    global result
+    result = []
+    global kol
+    kol = 0
+    stroka = ''
     form = [1, 2, 3]
     ovz = [0, 1]
     nazvanie = criter_button_1.text()
@@ -32,7 +69,10 @@ def use_filter():
     res41 = [i[0] for i in res41]
     print_info = QMessageBox()
     print_info.setWindowTitle('Фильтры')
-    print_info.setText('вот что удалось найти: ' + '\n' + str(res41))
+    for i in res41:
+        stroka += i.lower().replace('"','')[41:]
+        stroka += "\n"
+    print_info.setText('вот, что удалось найти: ' + '\n' + stroka)
     print_info.exec_()
 
 spec = []
@@ -44,9 +84,6 @@ data = json.loads(data_l)
 
 for i in data["data"]:
     spec.append([i["name"], i["direction"]["name"].lower(), int(i["age_min"]) // 12, int(i["age_max"]) // 12, i["ovz"], i["form"]])
-
-result = []
-kol = 0
 
 def specs(args):                        # фильтр по специальности
     if len(args) == 0:
@@ -176,6 +213,7 @@ main_layout.addLayout(poisk_layout)
 main_layout.addLayout(criter_layout_H)
 main_layout.addWidget(use_filter_button, alignment=Qt.AlignCenter)
 
+poisk_button.clicked.connect(use_search)
 use_filter_button.clicked.connect(use_filter)
 
 main_win.setLayout(main_layout)
