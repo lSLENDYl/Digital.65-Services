@@ -1,9 +1,14 @@
-spec = [
-    ["сноуборд", "активный спорт", 8, 18, 0, 1],
-    ["бпла", "айти", 14, 21, 1, 2],
-    ["математика", "учёба", 7, 18, 1, 3],
-    ["english", "учёба", 15, 20, 0, 2]
-]
+import json
+
+spec = []
+
+with open(r"C:\Users\User\Desktop\dopobr\data.json", "r", encoding="utf-8") as f:
+    data_l = f.read()
+
+data = json.loads(data_l)
+
+for i in data["data"]:
+    spec.append([i["name"], i["direction"]["name"], int(i["age_min"]) // 12, int(i["age_max"]) // 12, i["ovz"], i["form"]])
 
 result = []
 kol = 0
